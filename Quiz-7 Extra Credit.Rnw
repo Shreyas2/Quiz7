@@ -1,0 +1,26 @@
+\documentclass{article}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+<<chunk1, echo=FALSE, warning=FALSE>>=
+
+#install.packages("rvest")
+
+library("rvest")
+
+link = html("http://en.wikipedia.org/wiki/List_of_people_who_died_climbing_Mount_Everest")
+
+Mydf = html_table(html_nodes(link, "table"),fill = TRUE[[1]])
+
+MydfFinal = data.frame(Mydf)
+
+totalCount = nrow(data.frame(MydfFinal$Name))
+
+
+
+@
+
+List of people who died climbing Mount Everest \Sexpr{totalCount}.
+
+\end{document}

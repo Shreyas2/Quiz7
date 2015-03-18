@@ -1,0 +1,32 @@
+\documentclass{article}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+<<chunk1, echo=FALSE, warning=FALSE>>=
+
+#install.packages("rvest")
+
+library("rvest")
+
+link = html("http://en.wikipedia.org/wiki/Ebola_virus_epidemic_in_West_Africa")
+
+Mydf = html_table(html_nodes(link, "table")[[2]])
+
+Mydf = subset(Mydf, select = c(Country, Cases , Deaths))
+
+Mydf[ , colSums(is.na(Mydf)) == 0]
+
+totalCase = Mydf[10, "Cases"]
+
+totalDeath = Mydf[10, "Deaths"]
+
+USAcase = Mydf[6, "Cases"]
+
+USADeath = Mydf[6, "Deaths"]
+
+@
+
+The World Health Organization (WHO) and respective governments have reported a total of \Sexpr{totalCase} suspected cases and \Sexpr{totalDeath} deaths, though the WHO believes that this substantially understates the magnitude of the outbreak. In the United States there has been \Sexpr{USAcase} reported cases and \Sexpr{USADeath} deaths.
+
+\end{document}
